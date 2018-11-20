@@ -1,0 +1,29 @@
+{
+  "name": "Highscore-logger",
+  "version": "1.0.0",
+  "description": "It logs highscores",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Victor4X/Highscore-logger"
+  },
+  "author": "Victor4X",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Victor4X/Highscore-logger/issues"
+  },
+  "homepage": "https://github.com/Victor4X/Highscore-logger#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-ws": "^4.0.0",
+    "mongoose": "^5.3.8",
+    "package.json": "^2.0.1",
+    "pg": "^7.6.0",
+    "request": "^2.88.0"
+  }
+}
