@@ -7,23 +7,17 @@ class Handler:
     def __init__(self):
         pass
 
-    async def sUpdate(self,dotlist):
+    async def sUpdate(self,game,score,opt1,opt2,opt3):
         async with ws.connect('ws://pygame-online-service.herokuapp.com/db') as websocket:
-            
-            templist = []
-            if len(dotlist) != 0:
-                for d in dotlist:
-                    templist.append({'x':d[1][0],'y':d[1][1],'color':d[0]})
-                await websocket.send(json.dumps(templist))
-                print(f"> added dots {json.dumps(templist)}")
-            else: 
-                await websocket.send("get")
-                print(f"> get")
+
+            dump = {'Game':str(game),'Score':int(score),'Opt1':str(Opt1),'Opt2':str(Opt2),'Opt3':str(Opt3)}
+            await websocket.send(json.dumps(dump))
+            print(f"> added dots {json.dumps(dump)}")
 
             greeting = await websocket.recv()
-            #print(f"< {greeting}")
+
             return eval(greeting)
 
-    def update(self,dotlist):
-        response = asyncio.get_event_loop().run_until_complete(self.sUpdate(dotlist))
+    def update(self,game,score,opt1="n/a",opt2="n/a",opt3="n/a"):
+        response = asyncio.get_event_loop().run_until_complete(self.sUpdate())
         return response

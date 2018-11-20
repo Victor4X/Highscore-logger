@@ -7,7 +7,7 @@ var app = express();
 var expressWs = require('express-ws')(app);
 
 //mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser: true});
-mongoose.connect("mongodb://heroku-server:hejmeddig1@ds261570.mlab.com:61570/drawing-pygame",{useNewUrlParser: true});
+mongoose.connect("mongodb://public:public1@ds029454.mlab.com:29454/pygame-highscores",{useNewUrlParser: true});
 
 
 var db = mongoose.connection;
@@ -16,14 +16,13 @@ db.once('open', function() {
   // we're connected!
 });
 
-var dotSchema = new mongoose.Schema({
-    x: Number,
-    y: Number,
-    color: [Number]
+var scoreSchema = new mongoose.Schema({
+    Game: Text,
+    Score: Number,
+    Opt1: Text,
+    Opt2: Text,
+    Opt3: Text
   });
-
-var Dots = mongoose.model('Dot',dotSchema);
-
 
 app.use(function (req, res, next) {
 //console.log('middleware');
@@ -46,43 +45,27 @@ console.log('socket', req.testing);
 });
 
 app.get('/db', function (req, res) {
-    
-    try {
-        Dots.find(function (err, dotEntries) {
-            if (err) return console.error(err);
-            res.send(dotEntries);
-          })
-      } catch (err) {
-        console.error(err);
-        res.send("Error " + err);
-      }
+    console.log('get route', req.testing);
+    res.send('hello (Database)');
+    res.end();
 });
 
 app.ws('/db', function (ws, req) {
 ws.on('message',function(msg){
-    if (msg != "get"){
 
-        /*
-        console.log(msg);
-        console.log(typeof(msg));
-        console.log(JSON.parse(msg))
-        console.log(typeof(JSON.parse(msg)))
-        */
-
-        dot = JSON.parse(msg)
-        
-        Dots.insertMany(dot, function (err) {
-            if (err) return handleError(err);
-            // saved!
-          });
-        
-        
-    }
+    score = JSON.parse(msg)
+    
+    var Games = mongoose.model('Games',scoreSchema);
+    
+    Games.insertMany(score, function (err) {
+        if (err) return handleError(err);
+        // saved!
+    });
     try {
-        Dots.find().lean().exec(function (err, dotEntries) {
+        Games.find().lean().exec(function (err, scoreEntries) {
             if (err) return console.error(err);
             //console.log(dotEntries);
-            ws.send(JSON.stringify(dotEntries));
+            ws.send(JSON.stringify(scoreEntries));
         })
       } catch (err) {
         console.error(err);
@@ -92,30 +75,3 @@ ws.on('message',function(msg){
 });
    
 app.listen(process.env.PORT || 5000);
-
-
-/* 
-var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-app.listen((process.env.PORT || 5000));
-
-// Server index page
-app.get("/", function (req, res) {
-  res.send("Deployed!");
-});
-app.get('/db', function (req, res) {
-    
-    try {
-        Dots.find(function (err, dotEntries) {
-            if (err) return console.error(err);
-            console.log(dotEntries);
-            res.send(dotEntries);
-          })
-      } catch (err) {
-        console.error(err);
-        res.send("Error " + err);
-      }
-});
-
-*/
