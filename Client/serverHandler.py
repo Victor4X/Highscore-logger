@@ -8,11 +8,11 @@ class Handler:
         pass
 
     async def sUpdate(self,game,score,opt1,opt2,opt3):
-        async with ws.connect('ws://pygame-online-service.herokuapp.com/db') as websocket:
+        async with ws.connect('ws://highscore-logger.herokuapp.com/db') as websocket:
 
-            dump = {'Game':str(game),'Score':int(score),'Opt1':str(Opt1),'Opt2':str(Opt2),'Opt3':str(Opt3)}
+            dump = {'Game':str(game),'Score':int(score),'Opt1':str(opt1),'Opt2':str(opt2),'opt3':str(opt3)}
             await websocket.send(json.dumps(dump))
-            print(f"> added dots {json.dumps(dump)}")
+            print(f"> added score {json.dumps(dump)}")
 
             greeting = await websocket.recv()
 

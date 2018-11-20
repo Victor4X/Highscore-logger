@@ -17,11 +17,11 @@ db.once('open', function() {
 });
 
 var scoreSchema = new mongoose.Schema({
-    Game: Text,
+    Game: String,
     Score: Number,
-    Opt1: Text,
-    Opt2: Text,
-    Opt3: Text
+    Opt1: String,
+    Opt2: String,
+    Opt3: String
   });
 
 app.use(function (req, res, next) {
