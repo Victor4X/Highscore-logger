@@ -3,7 +3,7 @@ from serverHandler import Handler
 class Logger:
     
     def __init__(self):
-        self.handler = Handler
+        self.handler = Handler()
     
     def post_score(self,game,score,opt1="n/a",opt2="n/a",opt3="n/a"):
         #Poster score til game

@@ -19,5 +19,5 @@ class Handler:
             return eval(greeting)
 
     def update(self,game,score,opt1="n/a",opt2="n/a",opt3="n/a"):
-        response = asyncio.get_event_loop().run_until_complete(self.sUpdate())
+        response = asyncio.get_event_loop().run_until_complete(self.sUpdate(game,score,opt1,opt2,opt3))
         return response
