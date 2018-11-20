@@ -53,11 +53,11 @@ app.get('/db', function (req, res) {
 app.ws('/db', function (ws, req) {
 ws.on('message',function(msg){
 
+    var Games = mongoose.model('Games',scoreSchema);
+
     if (msg != "get"){
 
         score = JSON.parse(msg)
-    
-        var Games = mongoose.model('Games',scoreSchema);
         
         Games.insertMany(score, function (err) {
             if (err) return handleError(err);

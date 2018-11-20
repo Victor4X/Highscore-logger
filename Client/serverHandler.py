@@ -11,7 +11,7 @@ class Handler:
         async with ws.connect('ws://highscore-logger.herokuapp.com/db') as websocket:
 
             if game != "get":
-                dump = {'Game':str(game),'Score':int(score),'Opt1':str(opt1),'Opt2':str(opt2),'opt3':str(opt3)}
+                dump = {'Game':str(game),'Score':int(score),'Opt1':str(opt1),'Opt2':str(opt2),'Opt3':str(opt3)}
                 await websocket.send(json.dumps(dump))
                 print(f"> added score {json.dumps(dump)}")
 
