@@ -53,14 +53,19 @@ app.get('/db', function (req, res) {
 app.ws('/db', function (ws, req) {
 ws.on('message',function(msg){
 
-    score = JSON.parse(msg)
+    if (msg != "get"){
+
+        score = JSON.parse(msg)
     
-    var Games = mongoose.model('Games',scoreSchema);
+        var Games = mongoose.model('Games',scoreSchema);
+        
+        Games.insertMany(score, function (err) {
+            if (err) return handleError(err);
+            // saved!
+        });
+        
+    }
     
-    Games.insertMany(score, function (err) {
-        if (err) return handleError(err);
-        // saved!
-    });
     try {
         Games.find().lean().exec(function (err, scoreEntries) {
             if (err) return console.error(err);

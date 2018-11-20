@@ -10,9 +10,14 @@ class Handler:
     async def sUpdate(self,game,score,opt1,opt2,opt3):
         async with ws.connect('ws://highscore-logger.herokuapp.com/db') as websocket:
 
-            dump = {'Game':str(game),'Score':int(score),'Opt1':str(opt1),'Opt2':str(opt2),'opt3':str(opt3)}
-            await websocket.send(json.dumps(dump))
-            print(f"> added score {json.dumps(dump)}")
+            if game != "get":
+                dump = {'Game':str(game),'Score':int(score),'Opt1':str(opt1),'Opt2':str(opt2),'opt3':str(opt3)}
+                await websocket.send(json.dumps(dump))
+                print(f"> added score {json.dumps(dump)}")
+
+            else:
+                await websocket.send("get")
+                print("got scores")
 
             greeting = await websocket.recv()
 
