@@ -6,9 +6,7 @@ var express = require('express');
 var app = express();
 var expressWs = require('express-ws')(app);
 
-//mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser: true});
-mongoose.connect("mongodb://public:public1@ds029454.mlab.com:29454/pygame-highscores",{useNewUrlParser: true});
-
+mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser: true});
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
